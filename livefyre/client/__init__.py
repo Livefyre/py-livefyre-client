@@ -34,7 +34,7 @@ class LivefyreClient(Connection):
     def __init__(self, domain, domain_key, endpoint=None, user="system", timeout=5, cache_dir=".cache"):
         if not endpoint:
             endpoint = "http://%s" % domain
-        Connection.__init__(self, endpoint, cache_dir=cache_dir)
+        Connection.__init__(self, endpoint)
         self.domain = domain
         self.domain_key = domain_key
         self.user = user
@@ -65,7 +65,7 @@ class LivefyreClient(Connection):
         return self.request("/profile/%s/" % profile_id, "get")['data']
 
     def get_profile_comments(self, profile_id, comment_offset):
-        return self.request("/profile/%s/comments/%d/" % (profile_id, comment_offset), "get")['data']
+        return self.request("/api/v3.0/author/%s/content/?offset=%d" % (profile_id, comment_offset), "get")['data']
 
     def update_profile(self, user_id, user_data):
         return self.request("/profiles/", "post",
